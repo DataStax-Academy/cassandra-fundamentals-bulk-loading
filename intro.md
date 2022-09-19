@@ -13,17 +13,17 @@
     <div class="container px-4 py-2">
      <div class="row g-4 py-2 row-cols-1 row-cols-lg-1">
       <div class="feature col div-choice">
-            <div class="scenario-description">Learn how to create tables that can only have one row per partition in a Cassandra NoSQL database.</div>
+            <div class="scenario-description">Learn how to use the DSBulk utility to load data from CSV files into Cassandra NoSQL database tables.</div>
             <ul>
               <li><span class="scenario-description-attribute">Difficulty</span>: Beginner</li>
               <li><span class="scenario-description-attribute">Time</span>: 15 minutes</li>
             </ul>
             <div class="scenario-objectives">In this hands-on lab, you will:</div>
             <ul>
-              <li><span class="scenario-objective">Create tables using the CQL <code>CREATE TABLE</code> statement</span></li>
-              <li><span class="scenario-objective">Learn about tables with <i>single-row partitions</i></span></li>
-              <li><span class="scenario-objective">Understand the difference between <i>simple</i> and <i>composite</i> partition keys</span></li>
-              <li><span class="scenario-objective">Practice several useful CQL statements and CQL shell commands that work with tables</span></li>
+              <li><span class="scenario-objective">Understand DSBulk use cases</span></li>
+              <li><span class="scenario-objective">Use DSBulk commands <code>load</code>, <code>unload</code> and <code>count</code></span></li>
+              <li><span class="scenario-objective">Learn about DSBulk options <code>-url</code>, <code>-k</code>, <code>-t</code>, <code>-m</code> and more</span></li>
+              <li><span class="scenario-objective">Explore several examples of using DSBulk</span></li>
             </ul>
       </div>
      </div>
