@@ -13,7 +13,7 @@
    class="btn btn-dark navigation-top-left">⬅️ Back
  </a>
 <span class="step-count"> Step 7 of 9</span>
- <a href='command:katapod.loadPage?[{"step":"step8-cassandra"}]'
+ <a href='command:katapod.loadPage?[{"step":"finish-cassandra"}]'
     class="btn btn-dark navigation-top-right">Next ➡️
   </a>
 </div>
@@ -93,7 +93,7 @@ SELECT * FROM actors;
  <a href='command:katapod.loadPage?[{"step":"step6-cassandra"}]'
    class="btn btn-dark navigation-bottom-left">⬅️ Back
  </a>
- <a href='command:katapod.loadPage?[{"step":"step8-cassandra"}]'
+ <a href='command:katapod.loadPage?[{"step":"finish-cassandra"}]'
     class="btn btn-dark navigation-bottom-right">Next ➡️
   </a>
 </div>
