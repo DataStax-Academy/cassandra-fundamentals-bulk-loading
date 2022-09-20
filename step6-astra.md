@@ -20,71 +20,63 @@
 
 <!-- CONTENT -->
 
-<div class="step-title">Create table "genres"</div>
+<div class="step-title">Loading ratings</div>
 
-Our next table will store information about movie genres as shown below. This table 
-with *single-row partitions* and a *simple partition key* is for you to define.
+Let's load movie ratings from file `ratings.csv` 
+into tables `ratings_by_user` and `ratings_by_movie`. 
 
-| genre     | description |
-|-----------|-------------|
-| Adventure |  A story about a protagonist who journeys to epic or distant places to accomplish something. |
-| Fantasy   |  A story about magic or supernatural forces. | 
+✅ Output the first five lines from the file:
+```
+head -n 5 assets/ratings.csv
+```
 
-<br/>
+✅ Verify that the tables are empty:
+```
+astra db cqlsh cassandra-fundamentals -k ks_bulk_loading -e "
+  TRUNCATE TABLE movies;
+  SELECT * FROM ratings_by_user LIMIT 5;"
+astra db cqlsh cassandra-fundamentals -k ks_bulk_loading -e "
+  TRUNCATE TABLE movies;
+  SELECT * FROM ratings_by_movie LIMIT 5;"
+```
 
-✅ Create the table:
+Notice that the file field names and the table column names match. We do not 
+need to provide an explicit mapping this time.
+
+✅ Load data into table `ratings_by_user`:
+```
+astra db dsbulk cassandra-fundamentals load \
+            -url assets/ratings.csv         \
+            -k ks_bulk_loading              \
+            -t ratings_by_user              \
+            -header true                    \
+            -logDir /tmp/logs
+```
+
+✅ Load data into table `ratings_by_movie`:
 <details>
   <summary>Solution</summary>
 
 ```
-CREATE TABLE IF NOT EXISTS genres (
-  genre TEXT,
-  description TEXT,
-  PRIMARY KEY ((genre))
-);
+astra db dsbulk cassandra-fundamentals load \
+            -url assets/ratings.csv         \
+            -k ks_bulk_loading              \
+            -t ratings_by_movie             \
+            -header true                    \
+            -logDir /tmp/logs
 ```
 
 </details>
 
 <br/>
 
-✅ Insert the rows:
-<details>
-  <summary>Solution</summary>
-
+✅ Output five rows from each table:
 ```
-INSERT INTO genres (genre, description) 
-VALUES ('Adventure', 'A story about a protagonist who journeys to epic or distant places to accomplish something.');
-INSERT INTO genres (genre, description) 
-VALUES ('Fantasy', 'A story about magic or supernatural forces.');
+astra db cqlsh cassandra-fundamentals -k ks_bulk_loading -e "
+  SELECT * FROM ratings_by_user LIMIT 5;"
+astra db cqlsh cassandra-fundamentals -k ks_bulk_loading -e "
+  SELECT * FROM ratings_by_movie LIMIT 5;"
 ```
-
-</details>
-
-<br/>
-
-✅ Retrieve one row:
-<details>
-  <summary>Solution</summary>
-
-```
-SELECT * FROM genres
-WHERE genre = 'Fantasy';
-```
-
-</details>
-
-<br/>
-
-✅ Retrieve all rows:
-<details>
-  <summary>Solution</summary>
-
-```
-SELECT * FROM genres;
-```
-
-</details>
 
 <!-- NAVIGATION -->
 <div id="navigation-bottom" class="navigation-bottom">

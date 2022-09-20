@@ -20,48 +20,45 @@
 
 <!-- CONTENT -->
 
-<div class="step-title">Create table "movies"</div>
+<div class="step-title">Loading movies</div>
 
-Our second table will store information about movies as shown below.  To define 
-this table with *single-row partitions*, we can use `title` and `year`
-as a *composite partition key*.
+Next, load movie data from file `movies.csv` 
+into table `movies`. 
 
-| title               | year | duration | avg_rating |
-|---------------------|------|----------|------------|
-| Alice in Wonderland | 2010 |   108    |    6.00    |
-| Alice in Wonderland | 1951 |    75    |    7.08    |
+✅ Output the first five lines from the file:
+```
+head -n 5 assets/movies.csv
+```
+
+✅ Verify that the table is empty:
+```
+cqlsh -k ks_bulk_loading -e "SELECT * FROM movies LIMIT 5;"
+```
+
+✅ Load data:
+<details>
+  <summary>Solution</summary>
+
+```
+dsbulk load -url assets/movies.csv \
+            -k ks_bulk_loading     \
+            -t movies              \
+            -header true           \
+            -m "movie_id=id,       \
+                title=title,       \
+                year=year,         \
+                duration=duration, \
+                country=country"   \
+            -logDir /tmp/logs
+```
+
+</details>
 
 <br/>
 
-✅ Create the table:
+✅ Output five rows from the table:
 ```
-CREATE TABLE IF NOT EXISTS movies (
-  title TEXT,
-  year INT,
-  duration INT,
-  avg_rating FLOAT,
-  PRIMARY KEY ((title, year))
-);
-```
-
-✅ Insert the rows:
-```
-INSERT INTO movies (title, year, duration, avg_rating) 
-VALUES ('Alice in Wonderland', 2010, 108, 6.00);
-INSERT INTO movies (title, year, duration, avg_rating) 
-VALUES ('Alice in Wonderland', 1951, 75, 7.08);
-```
-
-✅ Retrieve one row:
-```
-SELECT * FROM movies
-WHERE title = 'Alice in Wonderland'
-  AND year = 2010;
-```
-
-✅ Retrieve all rows:
-```
-SELECT * FROM movies;
+cqlsh -k ks_bulk_loading -e "SELECT * FROM movies LIMIT 5;"
 ```
 
 <!-- NAVIGATION -->
