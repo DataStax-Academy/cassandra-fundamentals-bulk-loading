@@ -20,29 +20,58 @@
 
 <!-- CONTENT -->
 
-<div class="step-title">Connect to Cassandra and create a keyspace</div>
+<div class="step-title">Connect to Cassandra and create a keyspace and tables</div>
 
 ✅ Start Cassandra:
 ```
 ./cassandra
 ```
 
-✅ Start the CQL shell:
+✅ Create the keyspace and four tables using the CQL shell:
 ```
-cqlsh
-```
+cqlsh -e "
 
-✅ Create the keyspace:
-```
-CREATE KEYSPACE ks_single_row_partitions
+CREATE KEYSPACE IF NOT EXISTS ks_bulk_loading
 WITH replication = {
   'class': 'NetworkTopologyStrategy', 
   'DC-Houston': 1 };
+
+USE ks_bulk_loading;
+
+CREATE TABLE IF NOT EXISTS users (
+  id TEXT,
+  gender TEXT,
+  age INT,
+  PRIMARY KEY ((id))
+);
+
+CREATE TABLE IF NOT EXISTS movies (
+  id TEXT,
+  title TEXT,
+  year INT,
+  duration INT,
+  country TEXT,
+  PRIMARY KEY ((id))
+);
+
+CREATE TABLE IF NOT EXISTS ratings_by_user (
+  user_id TEXT,
+  movie_id TEXT,
+  rating INT,
+  PRIMARY KEY ((user_id), movie_id)
+);
+
+CREATE TABLE IF NOT EXISTS ratings_by_movie (
+  movie_id TEXT,
+  user_id TEXT,
+  rating INT,
+  PRIMARY KEY ((movie_id), user_id)
+);"
 ```
 
-✅ Set the current working keyspace:
+✅ Verify that the four tables have been created:
 ```
-USE ks_single_row_partitions;
+cqlsh -k ks_bulk_loading -e "DESCRIBE TABLES;"
 ```
 
 <!-- NAVIGATION -->

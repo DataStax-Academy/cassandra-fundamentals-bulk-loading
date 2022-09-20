@@ -20,47 +20,69 @@
 
 <!-- CONTENT -->
 
-<div class="step-title">Create table "users"</div>
+<div class="step-title">Loading users</div>
 
-Our first table will store information about users as shown below. To define 
-this table with *single-row partitions*, we can use `email`
-as a *simple partition key*.
+Our first task is to load user data from file `users.csv` with header fields `user_id`, `gender` and `age` 
+into table `users` with columns `id`, `gender` and `age`. 
 
-| email            | name | age | date_joined |
-|------------------|------|-----|-------------|
-| joe@datastax.com |  Joe |  25 |  2020-01-01 |
-| jen@datastax.com |  Jen |  27 |  2020-01-01 | 
-
-<br/>
-
-✅ Create the table:
+✅ Output the first five lines from the file:
 ```
-CREATE TABLE IF NOT EXISTS users (
-  email TEXT,
-  name TEXT,
-  age INT,
-  date_joined DATE,
-  PRIMARY KEY ((email))
-);
+head -n 5 assets/users.csv
 ```
 
-✅ Insert the rows:
+✅ Verify that the table is empty:
 ```
-INSERT INTO users (email, name, age, date_joined) 
-VALUES ('joe@datastax.com', 'Joe', 25, '2020-01-01');
-INSERT INTO users (email, name, age, date_joined) 
-VALUES ('jen@datastax.com', 'Jen', 27, '2020-01-01');
-```
-
-✅ Retrieve one row:
-```
-SELECT * FROM users
-WHERE email = 'joe@datastax.com';
+astra db cqlsh cassandra-fundamentals -k ks_bulk_loading -e "
+  TRUNCATE TABLE users;
+  SELECT * FROM users LIMIT 5;"
 ```
 
-✅ Retrieve all rows:
+Since the file field names and the table column names do no match exactly, 
+we have to map fields to columns explicitly. There 
+are many ways to do this as we demonstrate in the following examples.
+
+✅ Load data (name-to-name mapping):
 ```
-SELECT * FROM users;
+astra db dsbulk cassandra-fundamentals load \
+            -url assets/users.csv           \
+            -k ks_bulk_loading              \
+            -t users                        \
+            -header true                    \
+            -m "user_id=id,                 \
+                gender=gender,              \
+                age=age"                    \
+            -logDir /tmp/logs
+```
+
+✅ Load data (position-to-name mapping): 
+```
+astra db dsbulk cassandra-fundamentals load \
+            -url assets/users.csv           \
+            -k ks_bulk_loading              \
+            -t users                        \
+            -header true                    \
+            -m "0=id,                       \
+                1=gender,                   \
+                2=age"                      \
+            -logDir /tmp/logs
+```
+
+✅ Load data (skip the file header and specify the column names): 
+```
+astra db dsbulk cassandra-fundamentals load \
+            -url assets/users.csv           \
+            -k ks_bulk_loading              \
+            -t users                        \
+            -header false                   \
+            -skipRecords 1                  \
+            -m "id, gender, age"            \
+            -logDir /tmp/logs
+```
+
+✅ Output five rows from the table:
+```
+astra db cqlsh cassandra-fundamentals -k ks_bulk_loading -e "
+  SELECT * FROM users LIMIT 5;"
 ```
 
 <!-- NAVIGATION -->

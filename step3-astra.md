@@ -41,22 +41,56 @@ astra setup
 astra db list
 ```
 
-✅ Create database `cassandra-fundamentals` and keyspace `ks_single_row_partitions` if they do not exist:
+✅ Create database `cassandra-fundamentals` and keyspace `ks_bulk_loading` if they do not exist:
 ```
-astra db create cassandra-fundamentals -k ks_single_row_partitions --if-not-exist --wait
+astra db create cassandra-fundamentals -k ks_bulk_loading --if-not-exist --wait
 ```
 
 This operation may take a bit longer when creating a new database or resuming an existing hibernated database.
 
-✅ Verify that database `cassandra-fundamentals` is `ACTIVE` and keyspace `ks_single_row_partitions` exists:
+✅ Verify that database `cassandra-fundamentals` is `ACTIVE` and keyspace `ks_bulk_loading` exists:
 ```
 astra db get cassandra-fundamentals
 ```
 
-✅ Start the CQL shell and connect to database `cassandra-fundamentals` and keyspace `ks_single_row_partitions`:
+✅ Create four tables:
 ```
-clear
-astra db cqlsh cassandra-fundamentals -k ks_single_row_partitions
+astra db cqlsh cassandra-fundamentals -k ks_bulk_loading -e "
+
+CREATE TABLE IF NOT EXISTS users (
+  id TEXT,
+  gender TEXT,
+  age INT,
+  PRIMARY KEY ((id))
+);
+
+CREATE TABLE IF NOT EXISTS movies (
+  id TEXT,
+  title TEXT,
+  year INT,
+  duration INT,
+  country TEXT,
+  PRIMARY KEY ((id))
+);
+
+CREATE TABLE IF NOT EXISTS ratings_by_user (
+  user_id TEXT,
+  movie_id TEXT,
+  rating INT,
+  PRIMARY KEY ((user_id), movie_id)
+);
+
+CREATE TABLE IF NOT EXISTS ratings_by_movie (
+  movie_id TEXT,
+  user_id TEXT,
+  rating INT,
+  PRIMARY KEY ((movie_id), user_id)
+);"
+```
+
+✅ Verify that the four tables have been created:
+```
+astra db cqlsh cassandra-fundamentals -k ks_bulk_loading -e "DESCRIBE TABLES;"
 ```
 
 <!-- NAVIGATION -->
