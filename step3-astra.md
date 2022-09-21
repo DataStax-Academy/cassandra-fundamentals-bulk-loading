@@ -53,7 +53,7 @@ This operation may take a bit longer when creating a new database or resuming an
 astra db get cassandra-fundamentals
 ```
 
-✅ Create four tables:
+✅ Create the tables:
 ```
 astra db cqlsh cassandra-fundamentals -k ks_bulk_loading -e "
 
