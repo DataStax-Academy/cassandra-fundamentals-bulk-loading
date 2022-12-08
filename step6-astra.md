@@ -45,7 +45,7 @@ need to provide an explicit mapping this time.
 
 ✅ Load data into table `ratings_by_user`:
 ```
-astra db dsbulk cassandra-fundamentals load \
+astra db load cassandra-fundamentals        \
             -url assets/ratings.csv         \
             -k ks_bulk_loading              \
             -t ratings_by_user              \

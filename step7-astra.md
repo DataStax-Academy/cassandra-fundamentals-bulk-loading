@@ -27,7 +27,7 @@ export data from Cassandra and compute simple row counts.
 
 ✅ Unload all rows from table `ratings_by_movie`:
 ```
-astra db dsbulk cassandra-fundamentals unload \
+astra db unload cassandra-fundamentals        \
               -url all_ratings                \
               -k ks_bulk_loading              \
               -t ratings_by_movie             \
@@ -37,7 +37,7 @@ astra db dsbulk cassandra-fundamentals unload \
 
 ✅ Unload rows from table `ratings_by_movie` using a query:
 ```
-astra db dsbulk cassandra-fundamentals unload \
+astra db unload cassandra-fundamentals        \
               -url m267_ratings               \
               -k ks_bulk_loading              \
               -query "                        \
@@ -56,7 +56,7 @@ head -n 5 m267_ratings/*
 
 ✅ Count all rows in table `ratings_by_movie`:
 ```
-astra db dsbulk cassandra-fundamentals count  \
+astra db count cassandra-fundamentals         \
               -k ks_bulk_loading              \
               -t ratings_by_movie             \
               -logDir /tmp/logs
@@ -64,7 +64,7 @@ astra db dsbulk cassandra-fundamentals count  \
 
 ✅ Count rows in table `ratings_by_movie` using a query:
 ```
-astra db dsbulk cassandra-fundamentals count  \
+astra db count cassandra-fundamentals         \
               -k ks_bulk_loading              \
               -query "                        \
 SELECT *                                      \

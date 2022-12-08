@@ -42,7 +42,7 @@ astra db cqlsh cassandra-fundamentals -k ks_bulk_loading -e "
   <summary>Solution</summary>
 
 ```
-astra db dsbulk cassandra-fundamentals load \
+astra db load cassandra-fundamentals        \
             -url assets/movies.csv          \
             -k ks_bulk_loading              \
             -t movies                       \

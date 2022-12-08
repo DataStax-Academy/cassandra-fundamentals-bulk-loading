@@ -43,7 +43,7 @@ are many ways to do this as we demonstrate in the following examples.
 
 ✅ Load data (name-to-name mapping):
 ```
-astra db dsbulk cassandra-fundamentals load \
+astra db load cassandra-fundamentals        \
             -url assets/users.csv           \
             -k ks_bulk_loading              \
             -t users                        \
@@ -56,7 +56,7 @@ astra db dsbulk cassandra-fundamentals load \
 
 ✅ Load data (position-to-name mapping): 
 ```
-astra db dsbulk cassandra-fundamentals load \
+astra db load cassandra-fundamentals        \
             -url assets/users.csv           \
             -k ks_bulk_loading              \
             -t users                        \
@@ -69,7 +69,7 @@ astra db dsbulk cassandra-fundamentals load \
 
 ✅ Load data (skip the file header and specify the column names): 
 ```
-astra db dsbulk cassandra-fundamentals load \
+astra db load cassandra-fundamentals        \
             -url assets/users.csv           \
             -k ks_bulk_loading              \
             -t users                        \
