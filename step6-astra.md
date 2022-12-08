@@ -58,7 +58,7 @@ astra db load cassandra-fundamentals        \
   <summary>Solution</summary>
 
 ```
-astra db dsbulk cassandra-fundamentals load \
+astra db load cassandra-fundamentals        \
             -url assets/ratings.csv         \
             -k ks_bulk_loading              \
             -t ratings_by_movie             \
